@@ -1,39 +1,37 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+This package provides functions to convert between the solar and lunar calendars, 
+with a focus on the Vietnamese lunar calendar system. The lunar calendar depends on the time zone,
+longitude, and latitude, so it is recommended to use this package only for 
+the Vietnamese lunar calendar.<br><br>
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+All the functions are converted from Javascript to Dart. The original is from [PhD. Ho Ngoc Duc](https://www.informatik.uni-leipzig.de/~duc/amlich/calrules.html).
+Thanks to him for inspiring me to create this package in Dart.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+- Convert Solar date to Lunar date and vice versa (supported from 1800 to 2199).
+- Convert Solar date to Julian days.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
-
+- The `convertSolar2Lunar` function returns a List by order: [lunarDay, lunarMonth, lunarYear, leap], where `leap` indicates whether the lunarMonth is a leap or not.
 ```dart
-const like = 'sample';
+int dd = 23;
+int mm = 3;
+int yy = 2023;
+int timeZone = 7; 
+
+List<int> lunar = convertSolar2Lunar(dd, mm, yy, timeZone); // lunar = [2, 2, 2023, 1] - leap
+```
+- The `convertLunar2Solar`function returns a List by order [solarDay, solarMonth, solarYear]. Note that it takes the `leap` parameter, where leap = 1 if the lunarMonth is leap, 0 if it is not leap.
+```dart
+int dd = 2;
+int mm = 2;
+int yy = 2023;
+int leap = 1;
+int timeZone = 7;
+
+List<int> solar = convertLunar2Solar(dd, mm, yy, leap, timeZone); // solar = [23, 3, 2023]
 ```
 
 ## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+I recommend reading the original research from [PhD. Ho Ngoc Duc](https://www.informatik.uni-leipzig.de/~duc/amlich/calrules.html) to know more about the calculation.<br>
