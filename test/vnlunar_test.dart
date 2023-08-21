@@ -76,10 +76,10 @@ void main() {
     int timeZone = 7;
 
     // Act
-    List<int> lunar = convertLunar2Solar(dd, mm, yy, leap, timeZone);
+    List<int> solar = convertLunar2Solar(dd, mm, yy, leap, timeZone);
 
     // Assert
-    expect(lunar, [21, 2, 2023]);
+    expect(solar, [21, 2, 2023]);
   });
 
   test('get Solar from Lunar, leap', () {
@@ -91,9 +91,9 @@ void main() {
     int timeZone = 7;
 
     // Act
-    List<int> lunar = convertLunar2Solar(dd, mm, yy, leap, timeZone);
+    List<int> solar = convertLunar2Solar(dd, mm, yy, leap, timeZone);
 
     // Assert
-    expect(lunar, [23, 3, 2023]);
+    expect(solar, [23, 3, 2023]);
   });
 }
