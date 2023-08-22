@@ -1,6 +1,8 @@
 import 'dart:math';
 
 const int _daysInYear = 365;
+const double _juliusDaysIn1900 = 2415021.076998695;
+const double _newMoonCycle = 29.530588853;
 
 /// Compute the (integral) Julian day number of day dd/mm/yyyy, i.e., the number
 /// of days between 1/1/4713 BC (Julian calendar) and dd/mm/yyyy.
@@ -137,7 +139,7 @@ int getLunarMonth11(int yy, int timeZone) {
   int k, nm, sunLong;
   double off;
   off = jdFromDate(31, 12, yy) - 2415021;
-  k = (off / 29.530588853).floor();
+  k = (off / _newMoonCycle).floor();
   nm = getNewMoonDay(k, timeZone);
   sunLong = getSunLongitude(nm, timeZone);
   if (sunLong >= 9) {
@@ -149,7 +151,7 @@ int getLunarMonth11(int yy, int timeZone) {
 /// Find the index of the leap month after the month starting on the day a11.
 int getLeapMonthOffset(int a11, int timeZone) {
   int k, last, arc, i;
-  k = ((a11 - 2415021.076998695) / 29.530588853 + 0.5).floor();
+  k = ((a11 - _juliusDaysIn1900) / _newMoonCycle + 0.5).floor();
   last = 0;
   i = 1; // We start with the month following lunar month 11
   arc = getSunLongitude(getNewMoonDay(k + i, timeZone), timeZone);
@@ -173,7 +175,7 @@ List<int> convertSolar2Lunar(int dd, int mm, int yy, int timeZone) {
       lunarYear,
       lunarLeap;
   dayNumber = jdFromDate(dd, mm, yy);
-  k = (dayNumber - 2415021.076998695) ~/ 29.530588853;
+  k = (dayNumber - _juliusDaysIn1900) ~/ _newMoonCycle;
   monthStart = getNewMoonDay(k + 1, timeZone);
   if (monthStart > dayNumber) {
     monthStart = getNewMoonDay(k, timeZone);
@@ -220,7 +222,7 @@ List<int> convertLunar2Solar(
     a11 = getLunarMonth11(lunarYear, timeZone);
     b11 = getLunarMonth11(lunarYear + 1, timeZone);
   }
-  k = (0.5 + (a11 - 2415021.076998695) / 29.530588853).floor();
+  k = (0.5 + (a11 - _juliusDaysIn1900) / _newMoonCycle).floor();
   off = lunarMonth - 11;
   if (off < 0) {
     off += 12;

@@ -1,8 +1,6 @@
 ## 1.0.1
 - Update SDK constraints
 - Add documents with dartdoc
-- 
 
 ## 1.0.0
-
 - Initial version.
