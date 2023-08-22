@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="generator" content="made with love by dartdoc 6.3.0">
+  <meta name="description" content="vnlunar API docs, for the Dart programming language.">
+  <title>vnlunar - Dart API docs</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static-assets/github.css?v1">
+  <link rel="stylesheet" href="static-assets/styles.css?v1">
+  <link rel="icon" href="static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li class="self-crumb">vnlunar package</li>
+  </ol>
+  <div class="self-name">vnlunar</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        brightness_4
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        brightness_5
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+  <div id="dartdoc-main-content" class="main-content">
+      
+<section class="desc markdown">
+  <p>This package provides functions to convert between the solar and lunar calendars,
+with a focus on the Vietnamese lunar calendar system. The lunar calendar depends on the time zone,
+longitude, and latitude, so it is recommended to use this package only for
+the Vietnamese lunar calendar.<br><br></p>
+<p>All the functions are converted from Javascript to Dart. The original is from <a href="https://www.informatik.uni-leipzig.de/~duc/amlich/calrules.html">PhD. Ho Ngoc Duc</a>.
+Thanks to him for inspiring me to create this package in Dart.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>Convert Solar date to Lunar date and vice versa (supported from 1800 to 2199).</li>
+<li>Convert Solar date to Julian days.</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<ul>
+<li>The <code>convertSolar2Lunar</code> function returns a List by order: <code>lunarDay, lunarMonth, lunarYear, leap</code>, where <code>leap</code> indicates whether the lunarMonth is a leap or not.</li>
+</ul>
+<pre class="language-dart"><code class="language-dart">int dd = 23;
+int mm = 3;
+int yy = 2023;
+int timeZone = 7; 
+
+List&lt;int&gt; lunar = convertSolar2Lunar(dd, mm, yy, timeZone); // lunar = [2, 2, 2023, 1] - leap
+</code></pre>
+<ul>
+<li>The <code>convertLunar2Solar</code>function returns a List by order <code>solarDay, solarMonth, solarYear</code>. Note that it takes the <code>leap</code> parameter, where leap = 1 if the lunarMonth is leap, 0 if it is not leap.</li>
+</ul>
+<pre class="language-dart"><code class="language-dart">int dd = 2;
+int mm = 2;
+int yy = 2023;
+int leap = 1;
+int timeZone = 7;
+
+List&lt;int&gt; solar = convertLunar2Solar(dd, mm, yy, leap, timeZone); // solar = [23, 3, 2023]
+</code></pre>
+<h2 id="additional-information">Additional information</h2>
+<p>I recommend reading the original research from <a href="https://www.informatik.uni-leipzig.de/~duc/amlich/calrules.html">PhD. Ho Ngoc Duc</a> to know more about the calculation.<br></p>
+</section>
+
+
+      <section class="summary">
+          <h2>Libraries</h2>
+        <dl>
+          <dt id="vnlunar">
+  <span class="name"><a href="vnlunar/vnlunar-library.html">vnlunar</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+        </dl>
+      </section>
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li class="self-crumb">vnlunar package</li>
+</ol>
+
+
+    <h5 class="hidden-xs"><span class="package-name">vnlunar</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="vnlunar/vnlunar-library.html">vnlunar</a></li>
+</ol>
+
+  </div>
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div>
+
+</main>
+
+<footer>
+  <span class="no-break">
+    vnlunar
+      1.0.1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="static-assets/highlight.pack.js?v1"></script>
+<script src="static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

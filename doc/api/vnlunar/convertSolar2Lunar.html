@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the convertSolar2Lunar function from the vnlunar library, for the Dart programming language.">
+  <title>convertSolar2Lunar function - vnlunar library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">vnlunar</a></li>
+    <li><a href="../vnlunar/vnlunar-library.html">vnlunar</a></li>
+    <li class="self-crumb">convertSolar2Lunar function</li>
+  </ol>
+  <div class="self-name">convertSolar2Lunar</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        brightness_4
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        brightness_5
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="vnlunar&#47;vnlunar-library-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-function">convertSolar2Lunar</span> function 
+ 
+</h1></div>
+
+    <section class="multi-line-signature">
+        
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>&gt;</span></span>
+<span class="name ">convertSolar2Lunar</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="convertSolar2Lunar-param-dd"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">dd</span>, </span></li>
+<li><span class="parameter" id="convertSolar2Lunar-param-mm"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">mm</span>, </span></li>
+<li><span class="parameter" id="convertSolar2Lunar-param-yy"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">yy</span>, </span></li>
+<li><span class="parameter" id="convertSolar2Lunar-param-timeZone"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">timeZone</span></span></li>
+</ol>)
+
+        
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Convert solar date dd/mm/yyyy to the corresponding lunar date.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">List&lt;int&gt; convertSolar2Lunar(int dd, int mm, int yy, int timeZone) {
+  int k,
+      dayNumber,
+      monthStart,
+      a11,
+      b11,
+      lunarDay,
+      lunarMonth,
+      lunarYear,
+      lunarLeap;
+  dayNumber = jdFromDate(dd, mm, yy);
+  k = (dayNumber - 2415021.076998695) ~&#47; 29.530588853;
+  monthStart = getNewMoonDay(k + 1, timeZone);
+  if (monthStart &gt; dayNumber) {
+    monthStart = getNewMoonDay(k, timeZone);
+  }
+  a11 = getLunarMonth11(yy, timeZone);
+  b11 = a11;
+  if (a11 &gt;= monthStart) {
+    lunarYear = yy;
+    a11 = getLunarMonth11(yy - 1, timeZone);
+  } else {
+    lunarYear = yy + 1;
+    b11 = getLunarMonth11(yy + 1, timeZone);
+  }
+  lunarDay = dayNumber - monthStart + 1;
+  int diff = (monthStart - a11) ~&#47; 29;
+  lunarLeap = 0;
+  lunarMonth = diff + 11;
+  if (b11 - a11 &gt; _daysInYear) {
+    int leapMonthDiff = getLeapMonthOffset(a11, timeZone);
+    if (diff &gt;= leapMonthDiff) {
+      lunarMonth = diff + 10;
+      if (diff == leapMonthDiff) {
+        lunarLeap = 1;
+      }
+    }
+  }
+  if (lunarMonth &gt; 12) {
+    lunarMonth = lunarMonth - 12;
+  }
+  if (lunarMonth &gt;= 11 &amp;&amp; diff &lt; 4) {
+    lunarYear -= 1;
+  }
+  return [lunarDay, lunarMonth, lunarYear, lunarLeap];
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../index.html">vnlunar</a></li>
+    <li><a href="../vnlunar/vnlunar-library.html">vnlunar</a></li>
+    <li class="self-crumb">convertSolar2Lunar function</li>
+</ol>
+
+
+    <h5>vnlunar library</h5>
+  </div><!--/.sidebar-offcanvas-left-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    vnlunar
+      1.0.1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+
