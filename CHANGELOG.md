@@ -1,3 +1,6 @@
+## 1.1.0
+- Add Solar, Lunar classes 
+
 ## 1.0.2
 - Refactor with minor changes
 
