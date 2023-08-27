@@ -1,5 +1,7 @@
 ## 1.1.0
-- Add Solar, Lunar classes 
+- Add Solar, Lunar classes
+- Use bool instead of int for lunarLeap
+- Set default timezone to 7 (GMT+7)
 
 ## 1.0.2
 - Refactor with minor changes

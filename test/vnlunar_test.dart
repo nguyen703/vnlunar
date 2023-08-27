@@ -72,11 +72,10 @@ void main() {
     int dd = 2;
     int mm = 2;
     int yy = 2023;
-    int leap = 0;
     int timeZone = 7;
 
     // Act
-    List<int> solar = convertLunar2Solar(dd, mm, yy, leap, timeZone);
+    List<int> solar = convertLunar2Solar(dd, mm, yy, false, timeZone);
 
     // Assert
     expect(solar, [21, 2, 2023]);
@@ -87,11 +86,10 @@ void main() {
     int dd = 2;
     int mm = 2;
     int yy = 2023;
-    int leap = 1;
     int timeZone = 7;
 
     // Act
-    List<int> solar = convertLunar2Solar(dd, mm, yy, leap, timeZone);
+    List<int> solar = convertLunar2Solar(dd, mm, yy, true, timeZone);
 
     // Assert
     expect(solar, [23, 3, 2023]);

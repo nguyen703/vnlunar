@@ -26,7 +26,7 @@ class Solar implements Comparable<Solar> {
   /// Create an instance of [Solar] from [dateTime]. If [dateTime] is null,
   /// automatically constructs a [Solar] with current date and time
   /// in the local time zone.
-  Solar(DateTime? dateTime)
+  Solar([DateTime? dateTime])
       : this._fromDate(dateTime ?? DateTime.now().toLocal());
 
   Solar._fromDate(DateTime dateTime) {

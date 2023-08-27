@@ -1,6 +1,7 @@
 import 'dart:math';
 
-const int _daysInYear = 365;
+import 'constants.dart';
+
 const double _juliusDaysIn1900 = 2415021.076998695;
 const double _newMoonCycle = 29.530588853;
 
@@ -14,7 +15,7 @@ int jdFromDate(int dd, int mm, int yy) {
   m = mm + 12 * a - 3;
   jd = dd +
       ((153 * m + 2) / 5).floor() +
-      _daysInYear * y +
+      daysInYear * y +
       (y / 4).floor() -
       (y / 100).floor() +
       (y / 400).floor() -
@@ -22,7 +23,7 @@ int jdFromDate(int dd, int mm, int yy) {
   if (jd < 2299161) {
     jd = dd +
         ((153 * m + 2) / 5).floor() +
-        _daysInYear * y +
+        daysInYear * y +
         (y / 4).floor() -
         32083;
   }
@@ -124,7 +125,7 @@ double sunLongitude(double jdn) {
 /// The function returns a number between 0 and 11.
 /// From the day after March equinox and the 1st major term after March equinox, 0 is returned.
 /// After that, return 1, 2, 3 ...
-int getSunLongitude(int dayNumber, int timeZone) {
+int getSunLongitude(int dayNumber, [int timeZone = vnTimezone]) {
   return (sunLongitude(dayNumber - 0.5 - timeZone / 24) / pi * 6).floor();
 }
 
@@ -135,7 +136,7 @@ int getNewMoonDay(int k, int timeZone) {
 }
 
 /// Find the day that starts the luner month 11 of the given year for the given time zone.
-int getLunarMonth11(int yy, int timeZone) {
+int getLunarMonth11(int yy, [int timeZone = vnTimezone]) {
   int k, nm, sunLong;
   double off;
   off = jdFromDate(31, 12, yy) - 2415021;
@@ -149,7 +150,7 @@ int getLunarMonth11(int yy, int timeZone) {
 }
 
 /// Find the index of the leap month after the month starting on the day a11.
-int getLeapMonthOffset(int a11, int timeZone) {
+int getLeapMonthOffset(int a11, [int timeZone = vnTimezone]) {
   int k, last, arc, i;
   k = ((a11 - _juliusDaysIn1900) / _newMoonCycle + 0.5).floor();
   last = 0;
@@ -164,7 +165,12 @@ int getLeapMonthOffset(int a11, int timeZone) {
 }
 
 /// Convert solar date dd/mm/yyyy to the corresponding lunar date.
-List<int> convertSolar2Lunar(int dd, int mm, int yy, int timeZone) {
+List<int> convertSolar2Lunar(
+  int dd,
+  int mm,
+  int yy, [
+  int timeZone = vnTimezone,
+]) {
   int k,
       dayNumber,
       monthStart,
@@ -193,7 +199,7 @@ List<int> convertSolar2Lunar(int dd, int mm, int yy, int timeZone) {
   int diff = (monthStart - a11) ~/ 29;
   lunarLeap = 0;
   lunarMonth = diff + 11;
-  if (b11 - a11 > _daysInYear) {
+  if (b11 - a11 > daysInYear) {
     int leapMonthDiff = getLeapMonthOffset(a11, timeZone);
     if (diff >= leapMonthDiff) {
       lunarMonth = diff + 10;
@@ -213,7 +219,12 @@ List<int> convertSolar2Lunar(int dd, int mm, int yy, int timeZone) {
 
 /// Convert lunar date to the corresponding solar date.
 List<int> convertLunar2Solar(
-    int lunarDay, int lunarMonth, int lunarYear, int lunarLeap, int timeZone) {
+  int lunarDay,
+  int lunarMonth,
+  int lunarYear,
+  bool lunarLeap, [
+  int timeZone = vnTimezone,
+]) {
   int k, a11, b11, off, leapOff, leapMonth, monthStart;
   if (lunarMonth < 11) {
     a11 = getLunarMonth11(lunarYear - 1, timeZone);
@@ -227,15 +238,15 @@ List<int> convertLunar2Solar(
   if (off < 0) {
     off += 12;
   }
-  if (b11 - a11 > _daysInYear) {
+  if (b11 - a11 > daysInYear) {
     leapOff = getLeapMonthOffset(a11, timeZone);
     leapMonth = leapOff - 2;
     if (leapMonth < 0) {
       leapMonth += 12;
     }
-    if (lunarLeap != 0 && lunarMonth != leapMonth) {
+    if (lunarLeap && lunarMonth != leapMonth) {
       return [0, 0, 0];
-    } else if (lunarLeap != 0 || off >= leapOff) {
+    } else if (lunarLeap || off >= leapOff) {
       off += 1;
     }
   }
