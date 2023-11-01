@@ -36,7 +36,7 @@ List<int> jdToDate(int jd) {
   if (jd > 2299160) {
     a = jd + 32044;
     b = ((4 * a + 3) / 146097).floor();
-    c = (a - (b * 146097) / 4).floor();
+    c = a - ((b * 146097) / 4).floor();
   } else {
     b = 0;
     c = jd + 32082;
@@ -244,9 +244,9 @@ List<int> convertLunar2Solar(
     if (leapMonth < 0) {
       leapMonth += 12;
     }
-    if (lunarLeap && lunarMonth != leapMonth) {
+    if (lunarLeap && (lunarMonth != leapMonth)) {
       return [0, 0, 0];
-    } else if (lunarLeap || off >= leapOff) {
+    } else if (lunarLeap || (off >= leapOff)) {
       off += 1;
     }
   }
