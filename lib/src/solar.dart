@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_overrides
-
 import 'lunar.dart';
 
 /// An instant in time, similar to [DateTime] object, having functions

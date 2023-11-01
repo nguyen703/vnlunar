@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_unused_constructor_parameters
-
 import 'package:vnlunar/src/constants.dart';
 import 'package:vnlunar/src/solar.dart';
 import 'package:vnlunar/src/vnlunar_base.dart';
