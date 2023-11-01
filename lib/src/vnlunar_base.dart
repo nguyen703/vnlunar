@@ -5,13 +5,6 @@ import 'constants.dart';
 const double _juliusDaysIn1900 = 2415021.076998695;
 const double _newMoonCycle = 29.530588853;
 
-abstract class VNLunar {
-  /// Returns DateTime format. If the current object is using Lunar system,
-  /// returns its properties with DateTime format. [Lunar] can use `toSolar` then
-  /// `toDateTime`, which is the same.
-  DateTime toDateTime();
-}
-
 /// Compute the (integral) Julian day number of day dd/mm/yyyy, i.e., the number
 /// of days between 1/1/4713 BC (Julian calendar) and dd/mm/yyyy.
 /// Formula from http://www.tondering.dk/claus/calendar.html

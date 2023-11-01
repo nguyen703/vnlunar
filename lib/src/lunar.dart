@@ -1,104 +1,83 @@
-// ignore_for_file: unnecessary_overrides
-
 import 'package:vnlunar/src/constants.dart';
+import 'package:vnlunar/src/solar.dart';
+import 'package:vnlunar/src/vnlunar_base.dart';
 
-import 'solar.dart';
-import 'vnlunar_base.dart';
+final class Lunar {
+  late final DateTime _rawDateTime;
+  DateTime get dateTime => _rawDateTime;
 
-class Lunar extends VNLunar implements Comparable<Lunar> {
-  late final int _year;
-  int get year => _year;
+  late final bool _leapMonth;
+  bool get leapMonth => _leapMonth;
 
-  late final int _month;
-  int get month => _month;
+  int get day => _rawDateTime.day;
+  int get month => _rawDateTime.month;
+  int get year => _rawDateTime.year;
 
-  late final int _day;
-  int get day => _day;
+  Lunar(int year, int month, int day) {
+    bool isYearValid = year >= 0;
+    bool isMonthValid = month >= 1 && month <= 12;
+    bool isDayValid = day >= 0 && day <= _getNumberOfDays(month, year);
+    assert(!isYearValid || !isMonthValid || !isDayValid, "Date is not valid");
 
-  late final int _hour;
-  int get hour => _hour;
+    // TODO (htrang) : implement isLeapMonth(year, month, day) or only visible for
+    // testing since leapMonth information is inconsistence
 
-  late final int _minute;
-  int get minute => _minute;
+    _rawDateTime = DateTime(year, month, day);
+  }
 
-  late final int _second;
-  int get second => _second;
+  Lunar._(DateTime? date, [bool leapMonth = false]) {
+    _rawDateTime = date ?? DateTime.now().toLocal();
+    _leapMonth = leapMonth;
+  }
 
-  late final bool? _leapMonth;
-  bool? get leapMonth => _leapMonth;
+  static Lunar createFromSolar(DateTime? date) {
+    date = date ?? DateTime.now().toLocal();
 
-  /// Create an instance of [Lunar] from [date]. If [date] is null,
-  /// automatically constructs a [Lunar] with current date and time
-  /// in the local time zone.
-  Lunar({
-    DateTime? date,
-    required bool createdFromSolar,
-  }) : this._fromDate(
-          date ?? DateTime.now().toLocal(),
-          createdFromSolar,
-        );
+    final rawLunar = convertSolar2Lunar(date.day, date.month, date.year);
+    return Lunar._(
+        DateTime(rawLunar[yearIndex], rawLunar[monthIndex], rawLunar[dayIndex],
+            date.hour, date.minute, date.second),
+        rawLunar.last == 1);
+  }
+}
 
-  /// Create an instance of [Lunar] from [Solar].
-  Lunar.fromSolar(Solar solar)
-      : this(
-          date: solar.toDateTime(),
-          createdFromSolar: true,
-        );
-
-  /// Convert to Solar. leapMonth = false if not specified.
+extension SolarConvertible on Lunar {
   Solar getSolar() {
-    final solar = convertLunar2Solar(_day, _month, _year, _leapMonth ?? false);
-    return Solar(DateTime(
-      solar[yearIndex],
-      solar[monthIndex],
-      solar[dayIndex],
-    ));
+    final rawSolar = convertLunar2Solar(
+        _rawDateTime.day, _rawDateTime.month, _rawDateTime.year, leapMonth);
+    return Solar(rawSolar[yearIndex], rawSolar[monthIndex], rawSolar[dayIndex]);
   }
+}
 
-  Lunar._fromDate(DateTime dateTime, bool createdFromSolar) {
-    if (!createdFromSolar) {
-      _year = dateTime.year;
-      _month = dateTime.month;
-      _day = dateTime.day;
-      _hour = dateTime.hour;
-      _minute = dateTime.minute;
-      _second = dateTime.second;
-      return;
-    }
-
-    final lunar =
-        convertSolar2Lunar(dateTime.day, dateTime.month, dateTime.year);
-    _year = lunar[yearIndex];
-    _month = lunar[monthIndex];
-    _day = lunar[dayIndex];
-    _leapMonth = (lunar.last == 1);
-    _hour = dateTime.hour;
-    _minute = dateTime.minute;
-    _second = dateTime.second;
+int _getNumberOfDays(int month, int year) {
+  bool isYearValid = year >= 0;
+  bool isMonthValid = month >= 1 && month <= 12;
+  if (!isYearValid || !isMonthValid) return 0;
+  switch (month) {
+    case 1:
+      return 31;
+    case 2:
+      return year % 4 == 0 && year % 100 == 0 ? 29 : 28;
+    case 3:
+      return 31;
+    case 4:
+      return 30;
+    case 5:
+      return 31;
+    case 6:
+      return 30;
+    case 7:
+      return 31;
+    case 8:
+      return 31;
+    case 9:
+      return 30;
+    case 10:
+      return 31;
+    case 11:
+      return 30;
+    case 12:
+      return 31;
   }
-
-  @override
-  int compareTo(Lunar other) {
-    if (this == other) return 0;
-    return getSolar().compareTo(other.getSolar());
-  }
-
-  @override
-  bool operator ==(other) {
-    return other is Lunar &&
-        other.year == _year &&
-        other.month == _month &&
-        other.day == _day &&
-        other.hour == _hour &&
-        other.minute == _minute &&
-        other.second == _second;
-  }
-
-  @override
-  int get hashCode => super.hashCode;
-
-  @override
-  DateTime toDateTime() {
-    return DateTime(_year, _month, _day, _hour, _minute, _second);
-  }
+  return 0;
 }
