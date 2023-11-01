@@ -27,14 +27,23 @@ class Lunar implements Comparable<Lunar> {
   late final bool _leapMonth;
   bool get leapMonth => _leapMonth;
 
-  /// Create an instance of [Lunar] from [dateTime]. If [dateTime] is null,
+  /// Create an instance of [Lunar] from [date]. If [date] is null,
   /// automatically constructs a [Lunar] with current date and time
   /// in the local time zone.
-  Lunar([DateTime? dateTime])
-      : this._fromDate(dateTime ?? DateTime.now().toLocal());
+  Lunar({
+    DateTime? date,
+    required bool createdFromSolar,
+  }) : this._fromDate(
+          date ?? DateTime.now().toLocal(),
+          createdFromSolar,
+        );
 
   /// Create an instance of [Lunar] from [Solar].
-  Lunar.fromSolar(Solar solar) : this(solar.toDateTime());
+  Lunar.fromSolar(Solar solar)
+      : this(
+          date: solar.toDateTime(),
+          createdFromSolar: true,
+        );
 
   /// Convert to Solar.
   Solar getSolar() {
@@ -46,7 +55,17 @@ class Lunar implements Comparable<Lunar> {
     ));
   }
 
-  Lunar._fromDate(DateTime dateTime) {
+  Lunar._fromDate(DateTime dateTime, bool createdFromSolar) {
+    if (!createdFromSolar) {
+      _year = dateTime.year;
+      _month = dateTime.month;
+      _day = dateTime.day;
+      _hour = dateTime.hour;
+      _minute = dateTime.minute;
+      _second = dateTime.second;
+      return;
+    }
+
     final lunar =
         convertSolar2Lunar(dateTime.day, dateTime.month, dateTime.year);
     _year = lunar[yearIndex];
