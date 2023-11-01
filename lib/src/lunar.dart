@@ -1,11 +1,11 @@
 // ignore_for_file: unnecessary_overrides
 
 import 'package:vnlunar/src/constants.dart';
-import 'package:vnlunar/src/vnlunar_base.dart';
 
 import 'solar.dart';
+import 'vnlunar_base.dart';
 
-class Lunar implements Comparable<Lunar> {
+class Lunar extends VNLunar implements Comparable<Lunar> {
   late final int _year;
   int get year => _year;
 
@@ -24,8 +24,8 @@ class Lunar implements Comparable<Lunar> {
   late final int _second;
   int get second => _second;
 
-  late final bool _leapMonth;
-  bool get leapMonth => _leapMonth;
+  late final bool? _leapMonth;
+  bool? get leapMonth => _leapMonth;
 
   /// Create an instance of [Lunar] from [date]. If [date] is null,
   /// automatically constructs a [Lunar] with current date and time
@@ -45,9 +45,9 @@ class Lunar implements Comparable<Lunar> {
           createdFromSolar: true,
         );
 
-  /// Convert to Solar.
+  /// Convert to Solar. leapMonth = false if not specified.
   Solar getSolar() {
-    final solar = convertLunar2Solar(_day, _month, _year, _leapMonth);
+    final solar = convertLunar2Solar(_day, _month, _year, _leapMonth ?? false);
     return Solar(DateTime(
       solar[yearIndex],
       solar[monthIndex],
@@ -91,10 +91,14 @@ class Lunar implements Comparable<Lunar> {
         other.day == _day &&
         other.hour == _hour &&
         other.minute == _minute &&
-        other.second == _second &&
-        other.leapMonth == _leapMonth;
+        other.second == _second;
   }
 
   @override
   int get hashCode => super.hashCode;
+
+  @override
+  DateTime toDateTime() {
+    return DateTime(_year, _month, _day, _hour, _minute, _second);
+  }
 }

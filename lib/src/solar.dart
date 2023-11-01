@@ -1,10 +1,11 @@
 // ignore_for_file: unnecessary_overrides
 
 import 'lunar.dart';
+import 'vnlunar_base.dart';
 
 /// An instant in time, similar to [DateTime] object, having functions
 /// that helps interacting with [Lunar] much more easier.
-class Solar implements Comparable<Solar> {
+class Solar extends VNLunar implements Comparable<Solar> {
   late final int _year;
   int get year => _year;
 
@@ -38,6 +39,7 @@ class Solar implements Comparable<Solar> {
     _second = dateTime.second;
   }
 
+  @override
   DateTime toDateTime() {
     return DateTime(
       _year,

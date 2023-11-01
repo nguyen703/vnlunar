@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:vnlunar/src/vnlunar_base.dart';
+import 'package:vnlunar/vnlunar.dart';
 
 void main() {
   test('get Julian from a date', () {
@@ -93,5 +93,67 @@ void main() {
 
     // Assert
     expect(solar, [23, 3, 2023]);
+  });
+
+  test('compare Solar with lunar.getSolar', () {
+    // Arrange
+    DateTime exampleDate = DateTime(1999, 6, 18);
+    Lunar lunar = Lunar(createdFromSolar: true, date: exampleDate);
+    Solar solar = Solar(exampleDate);
+    Solar convertedSolarFromLunar = lunar.getSolar();
+
+    // Act
+    bool compare = convertedSolarFromLunar == solar;
+
+    // Assert
+    expect(compare, true);
+  });
+
+  test('compare Solar with lunar.getSolar', () {
+    // Arrange
+    DateTime exampleDate = DateTime(1999, 6, 19);
+    Lunar lunar = Lunar(createdFromSolar: true, date: exampleDate);
+    Solar solar = Solar(DateTime(1999, 6, 18));
+    Solar convertedSolarFromLunar = lunar.getSolar();
+
+    // Act
+    bool compare = convertedSolarFromLunar == solar;
+
+    // Assert
+    expect(compare, false);
+  });
+
+  test('initialize Lunar with createdFromSolar = false', () {
+    // Arrange
+    DateTime exampleDate = DateTime(1999, 6, 18);
+
+    // Act
+    Lunar lunar = Lunar(createdFromSolar: false, date: exampleDate);
+
+    // Assert
+    expect(lunar.day, exampleDate.day);
+    expect(lunar.month, exampleDate.month);
+    expect(lunar.year, exampleDate.year);
+  });
+
+  test('initialize Lunar with createdFromSolar = true', () {
+    // Arrange
+    DateTime exampleDate = DateTime(1999, 6, 18);
+    DateTime lunarExampleDate = DateTime(1999, 5, 5);
+
+    // Act
+    Lunar lunar = Lunar(
+      createdFromSolar: true,
+      date: exampleDate,
+    );
+    Lunar lunarExample = Lunar(
+      createdFromSolar: false,
+      date: lunarExampleDate,
+    );
+
+    // Assert
+    expect(lunar, lunarExample);
+    expect(lunar, lunarExample);
+    expect(lunar, lunarExample);
   });
 }
