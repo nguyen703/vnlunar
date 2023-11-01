@@ -1,3 +1,9 @@
+## 1.1.0
+- Add Solar, Lunar classes
+- Use bool instead of int for lunarLeap
+- Set default timezone to 7 (GMT+7)
+- Fix a bug in jdToDate function that sometimes leads to wrong calculation
+
 ## 1.0.2
 - Refactor with minor changes
 
