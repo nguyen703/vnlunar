@@ -13,6 +13,15 @@ Thanks to him for inspiring me to create this package in Dart.
 
 ## Usage
 
+- From version 1.1.0, the package supports Classes instead of Lists for easier access. `Lunar` and `Solar` provide methods to interact with each other, or converted to DateTime object.
+```dart
+  final lunar = Lunar(createdFromSolar: true, date: DateTime(1998, 6, 18));
+  final solar = Solar(DateTime(1998, 6, 18));
+  final convertedSolarFromLunar = lunar.getSolar();
+  
+  // solar == convertedSolarFromLunar -> true
+```
+
 - The `convertSolar2Lunar` function returns a List by order: [lunarDay, lunarMonth, lunarYear, leap], where `leap` indicates whether the lunarMonth is a leap or not.
 ```dart
 int dd = 23;
