@@ -63,6 +63,7 @@ class Lunar extends VNLunar implements Comparable<Lunar> {
       _hour = dateTime.hour;
       _minute = dateTime.minute;
       _second = dateTime.second;
+      _leapMonth = null;
       return;
     }
 
