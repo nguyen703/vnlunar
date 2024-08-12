@@ -1,4 +1,4 @@
-## 1.1.0
+## 1.1.1
 - Fix late init error
 
 ## 1.1.0
