@@ -1,4 +1,7 @@
 ## 1.1.0
+- Fix late init error
+
+## 1.1.0
 - Add Solar, Lunar classes
 - Use bool instead of int for lunarLeap
 - Set default timezone to 7 (GMT+7)
