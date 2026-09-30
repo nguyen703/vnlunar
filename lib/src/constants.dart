@@ -3,3 +3,5 @@ const int daysInYear = 365;
 const int yearIndex = 2;
 const int monthIndex = 1;
 const int dayIndex = 0;
+const int minSupportedYear = 1800;
+const int maxSupportedYear = 2199;
