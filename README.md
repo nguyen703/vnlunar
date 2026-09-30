@@ -22,6 +22,14 @@ Thanks to him for inspiring me to create this package in Dart.
   // solar == convertedSolarFromLunar -> true
 ```
 
+- From version 1.2.0, `Lunar.date` creates a lunar date directly, including dates in a leap month. `getSolar()` throws an `ArgumentError` if the lunar date doesn't exist, or if the solar date is outside the supported years 1800 to 2199.
+```dart
+  final leap = Lunar.date(2023, 2, 2, leapMonth: true);
+  leap.getSolar(); // 23/3/2023
+
+  Lunar.date(2023, 5, 1, leapMonth: true).getSolar(); // throws, 2023's leap month is 2
+```
+
 - The `convertSolar2Lunar` function returns a List by order: [lunarDay, lunarMonth, lunarYear, leap], where `leap` indicates whether the lunarMonth is a leap or not.
 ```dart
 int dd = 23;
@@ -31,12 +39,12 @@ int timeZone = 7;
 
 List<int> lunar = convertSolar2Lunar(dd, mm, yy, timeZone); // lunar = [2, 2, 2023, 1] - leap
 ```
-- The `convertLunar2Solar`function returns a List by order [solarDay, solarMonth, solarYear]. Note that it takes the `leap` parameter, where leap = 1 if the lunarMonth is leap, 0 if it is not leap.
+- The `convertLunar2Solar` function returns a List by order [solarDay, solarMonth, solarYear]. Note that it takes the `leap` parameter, where leap = true if the lunarMonth is leap, false if it is not leap.
 ```dart
 int dd = 2;
 int mm = 2;
 int yy = 2023;
-int leap = 1;
+bool leap = true;
 int timeZone = 7;
 
 List<int> solar = convertLunar2Solar(dd, mm, yy, leap, timeZone); // solar = [23, 3, 2023]

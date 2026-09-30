@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_overrides
-
 import 'lunar.dart';
 import 'vnlunar_base.dart';
 
@@ -69,5 +67,5 @@ class Solar extends VNLunar implements Comparable<Solar> {
   }
 
   @override
-  int get hashCode => super.hashCode;
+  int get hashCode => Object.hash(_year, _month, _day, _hour, _minute, _second);
 }
